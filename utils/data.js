@@ -6,6 +6,15 @@ const getResultBoard = async ({ seasonId, seasonSeriesId, seasonSeriesPhaseId })
   return resp.data
 }
 
+const getScoresBoard = async ({ seasonId, seasonSeriesId, seasonSeriesPhaseId }) => {
+  const url = `https://www.pesistulokset.fi/api/v1/stats-tool/players?sum=1&season=${seasonId}&seasonSeries=${seasonSeriesId}&phase=${seasonSeriesPhaseId}&statfilter=lyodyt`
+
+  const resp = await axios(url)
+  // const resp = await axios(`https://www.pesistulokset.fi/api/v1/result-board?season=${seasonId}&seasonSeries=${seasonSeriesId}&phase=${seasonSeriesPhaseId}`)
+
+  return resp.data
+}
+
 const handleResultBoard = board => {
   const sorted_board = board.resultBoard.sort((a, b) => a.num - b.num)
 
@@ -45,4 +54,4 @@ const handleResultBoard = board => {
   }
 }
 
-module.exports = { getResultBoard, handleResultBoard }
+module.exports = { getResultBoard, handleResultBoard, getScoresBoard }
