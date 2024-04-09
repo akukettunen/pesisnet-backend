@@ -22,6 +22,23 @@ const getPlayerAveragePlays = async (name, season) => {
   return avs
 }
 
+
+const pitcherComparison = async ({ league_id, season, base }) => {
+  const avs = await query(`
+  SELECT lukkari, ROUND(AVG(aika), 2) as average_time, COUNT(*) as amount, base
+  FROM runs
+  WHERE is_play = 0
+        AND leagueId = ?
+        AND YEAR(run_date) = ?
+        AND base = ?
+  GROUP BY lukkari
+  ORDER BY average_time DESC;
+  `, [ league_id, season, base ])
+
+  return avs
+}
+
+
 const getPlayerAveragesByBase = async (name, season, base) => {
   const avs = await query(`
     SELECT ROUND(MIN(aika), 2) as min_aika, base, COUNT(*) as amount, ROUND(AVG(lahto), 2) as avg_lahto, ROUND(AVG(aika), 2) as avg_aika, AVG(aika - lahto) as avg_juoksu
@@ -32,4 +49,4 @@ const getPlayerAveragesByBase = async (name, season, base) => {
   return avs
 }
 
-module.exports = { getPlayerAverages, getPlayerAveragesByBase, getPlayerAveragePlays }
+module.exports = { getPlayerAverages, getPlayerAveragesByBase, getPlayerAveragePlays, pitcherComparison }
