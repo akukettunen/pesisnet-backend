@@ -15,7 +15,7 @@ router.get('/standings', async (req, res) => {
 
 router.get('/scores', async (req, res) => {
   const { seasonId, seasonSeriesId, seasonSeriesPhaseId } = req.query
-  console.log({ seasonId, seasonSeriesId, seasonSeriesPhaseId })
+
   if(!seasonId || !seasonSeriesId || !seasonSeriesPhaseId) {
     return res.status(400).send('bad request')
   }

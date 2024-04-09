@@ -5,6 +5,7 @@ const express = require('express')
       axios = require('axios')
       require('dotenv')
       _ = require('lodash');
+      require('express-async-errors');
 
 router.get('/', async (req, res) => {
   /*
@@ -47,6 +48,18 @@ router.get('/', async (req, res) => {
   const orgs = gamesHelper.handleGamesData({ games: date_games, maps })
 
   res.json({ organizers: orgs })
+})
+
+router.get('/poll/:game_id', async (req, res) => {
+  const { after } = req.query;
+  const { game_id } = req.params;
+
+  // A hack. The pesistulokset.fi is fucked up
+  const url_encodedish_after = after.replace('+', '%2B')
+
+  let { data } = await gamesHelper.gamePoll(game_id, url_encodedish_after)
+
+  res.json(data)
 })
 
 router.get('/dates', async (req, res) => {

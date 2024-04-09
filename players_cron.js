@@ -49,7 +49,6 @@ getPlayers()
       const name = p.split('(')[0].trim().toLowerCase()
       const first_name = name.split(' ')[1]?.toLowerCase()
       if(!first_name) {
-        console.log(p)
         return undefined
       }
       const last_name = name.split(' ')[0]?.toLowerCase()
@@ -57,7 +56,6 @@ getPlayers()
         console.log(name)
       }
       if(!last_name) {
-        console.log('l: ', p)
         return undefined
       }
       const first_name_first_letter = first_name[0]

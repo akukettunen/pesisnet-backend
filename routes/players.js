@@ -22,14 +22,50 @@ router.get('/query/:search_string', async (req, res) => {
   res.json({ players: names, search_string  })
 })
 
+router.get('/time', async (req, res) => {
+  let { base, player_name, season } = req.query; // 1 = 1-2 | 2 = 2-3 | 3 = 3-K
+  let average;
+  average = await runsHelper.getPlayerAverages(player_name, season, base)
+  if(!average.length) {
+    season = season - 1
+    average = await runsHelper.getPlayerAverages(player_name, season, base)
+  }
+
+  res.json({
+    times: average,
+    season,
+    current_base: base,
+    player_name
+  })
+})
+
+router.get('/play-time', async (req, res) => {
+  let { base, player_name, season } = req.query; // 1 = 1-2 | 2 = 2-3 | 3 = 3-K
+  let average;
+  average = await runsHelper.getPlayerAveragePlays(player_name, season, base)
+  if(!average.length) {
+    season = season - 1
+    average = await runsHelper.getPlayerAveragePlays(player_name, season, base)
+  }
+
+  res.json({
+    times: average,
+    season,
+    current_base: base,
+    player_name
+  })
+})
+
 router.get('/:player_id', async (req, res) => {
   const { player_id } = req.params
   let { season } = req.query
 
+  console.log(season)
+
   if(!season || season === 'undefined') {
     const date = new Date()
     season = date.getFullYear()
-    season = 2023
+    season = 2024
   }
 
   if(!player_id) throw new Error('no player_id')
@@ -43,10 +79,12 @@ router.get('/:player_id', async (req, res) => {
 
   // Get all season events of player
   const events = await playersHelper.getPlayerEvents(name, season)
+  console.log(events[0])
   const events_grouped_by_tilanne = playersHelper.getPropertyPerecntagesAndN(events, ['tilanne'])
   const averages = await runsHelper.getPlayerAverages(name, season)
+  const average_plays = await runsHelper.getPlayerAveragePlays(name, season)
 
-  res.json({ player, events_grouped_by_tilanne, averages })
+  res.json({ player, events_grouped_by_tilanne, averages, average_plays })
 })
 
 module.exports = router;

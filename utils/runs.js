@@ -4,11 +4,32 @@ const getPlayerAverages = async (name, season) => {
   const avs = await query(`
     SELECT ROUND(MIN(aika), 2) as min_aika, base, COUNT(*) as amount, ROUND(AVG(lahto), 2) as avg_lahto, ROUND(AVG(aika), 2) as avg_aika, AVG(aika - lahto) as avg_juoksu
     FROM runs
-    WHERE runner = ? and YEAR(run_date) = ?
+    WHERE runner = ? and YEAR(run_date) = ? and is_play = FALSE
     GROUP BY base;
   `, [ name, season ])
 
   return avs
 }
 
-module.exports = { getPlayerAverages }
+const getPlayerAveragePlays = async (name, season) => {
+  const avs = await query(`
+    SELECT ROUND(MIN(aika), 2) as min_aika, base, COUNT(*) as amount, ROUND(AVG(lahto), 2) as avg_hallussa, ROUND(AVG(aika), 2) as avg_suoritus, AVG(aika - lahto) as avg_heitto
+    FROM runs
+    WHERE runner = ? and YEAR(run_date) = ? and is_play = TRUE
+    GROUP BY base;
+  `, [ name, season ])
+
+  return avs
+}
+
+const getPlayerAveragesByBase = async (name, season, base) => {
+  const avs = await query(`
+    SELECT ROUND(MIN(aika), 2) as min_aika, base, COUNT(*) as amount, ROUND(AVG(lahto), 2) as avg_lahto, ROUND(AVG(aika), 2) as avg_aika, AVG(aika - lahto) as avg_juoksu
+    FROM runs
+    WHERE runner = ? and YEAR(run_date) = ? and base = ? and is_play = FALSE
+  `, [ name, season, base ])
+
+  return avs
+}
+
+module.exports = { getPlayerAverages, getPlayerAveragesByBase, getPlayerAveragePlays }

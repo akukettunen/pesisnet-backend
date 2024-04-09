@@ -12,6 +12,11 @@ const gameBasicData = id => {
   return axios(`https://www.pesistulokset.fi/api/v1/public/match?id=${id}&apikey=${process.env.API_KEY}`)
 }
 
+const gamePoll = (id, after) => {
+  return axios(`https://www.pesistulokset.fi/api/v1/online/${id}/events?after=${after}`)
+
+}
+
 const gameData = async (date, id) => {
   const { data: { data, maps } } = await gamesByDate(date)
   if(!data) throw new Error('game not found')
@@ -204,4 +209,4 @@ const getTeamById = ({ team_id, maps }) => {
 }
 
 
-module.exports = { gameData, gameBasicData, gameEvents, handleGamesData, gamesByDate, gameDates }
+module.exports = { gamePoll, gameData, gameBasicData, gameEvents, handleGamesData, gamesByDate, gameDates }
