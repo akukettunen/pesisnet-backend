@@ -1,4 +1,4 @@
-const { getResultBoard, handleResultBoard, getScoresBoard } = require('../utils/data')
+const { getResultBoard, handleResultBoard, getScoresBoard, getRunsBoard } = require('../utils/data')
 const { pitcherComparison } = require('../utils/runs')
 const express = require('express')
       router = express.Router()
@@ -41,6 +41,18 @@ router.get('/scores', async (req, res) => {
   }
   
   const data = await getScoresBoard({ seasonId: parseInt(seasonId), seasonSeriesId: parseInt(seasonSeriesId), seasonSeriesPhaseId: parseInt(seasonSeriesPhaseId) })
+  
+  res.json( data )
+})
+
+router.get('/runs', async (req, res) => {
+  const { seasonId, seasonSeriesId, seasonSeriesPhaseId } = req.query
+
+  if(!seasonId || !seasonSeriesId || !seasonSeriesPhaseId) {
+    return res.status(400).send('bad request')
+  }
+  
+  const data = await getRunsBoard({ seasonId: parseInt(seasonId), seasonSeriesId: parseInt(seasonSeriesId), seasonSeriesPhaseId: parseInt(seasonSeriesPhaseId) })
   
   res.json( data )
 })

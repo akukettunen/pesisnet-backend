@@ -60,8 +60,6 @@ router.get('/:player_id', async (req, res) => {
   const { player_id } = req.params
   let { season } = req.query
 
-  console.log(season)
-
   if(!season || season === 'undefined') {
     const date = new Date()
     season = date.getFullYear()
@@ -79,7 +77,6 @@ router.get('/:player_id', async (req, res) => {
 
   // Get all season events of player
   const events = await playersHelper.getPlayerEvents(name, season)
-  console.log(events[0])
   const events_grouped_by_tilanne = playersHelper.getPropertyPerecntagesAndN(events, ['tilanne'])
   const averages = await runsHelper.getPlayerAverages(name, season)
   const average_plays = await runsHelper.getPlayerAveragePlays(name, season)
