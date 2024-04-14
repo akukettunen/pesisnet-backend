@@ -3,7 +3,7 @@ const express = require('express')
       router = express.Router()
       playersHelper = require('../utils/players')
       runsHelper = require('../utils/runs')
-      axios = require('axios')
+      axios = require('../utils/axios')
 
 router.get('/', async (req, res) => {
   const baseData = await getAndParseBaseData()

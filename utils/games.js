@@ -1,4 +1,4 @@
-const axios = require('axios')
+const axios = require('../utils/axios')
 
 const gamesByDate = date => {
   return axios(`https://www.pesistulokset.fi/api/v1/matches-per-date?date=${date}`)

@@ -2,7 +2,7 @@ const express = require('express')
       router = express.Router()
       helper = require('../utils/helper')
       gamesHelper = require('../utils/games')
-      axios = require('axios')
+      axios = require('../utils/axios')
       require('dotenv')
       _ = require('lodash');
       require('express-async-errors');

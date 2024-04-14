@@ -1,5 +1,5 @@
 const cheerio = require('cheerio')
-      axios = require('axios')
+      axios = require('../utils/axios')
       events_db = require('../db/event')
       _ = require('lodash');
 

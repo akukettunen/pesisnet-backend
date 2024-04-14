@@ -4,7 +4,7 @@ const express = require('express')
       playersHelper = require('../utils/players')
       runsHelper = require('../utils/runs')
       player_db = require('../db/player.js')
-      axios = require('axios')
+      axios = require('../utils/axios')
 
 router.get('/', async (req, res) => {
   const players = await playersHelper.getPlayerNamesWebsite()

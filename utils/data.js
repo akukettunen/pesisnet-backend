@@ -1,4 +1,4 @@
-const axios = require('axios')
+const axios = require('../utils/axios')
 
 const getResultBoard = async ({ seasonId, seasonSeriesId, seasonSeriesPhaseId }) => {
   const resp = await axios(`https://www.pesistulokset.fi/api/v1/result-board?season=${seasonId}&seasonSeries=${seasonSeriesId}&phase=${seasonSeriesPhaseId}`)
