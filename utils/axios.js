@@ -23,7 +23,6 @@ axiosInstance.interceptors.request.use(config => {
   // config.headers['Origin'] = randomOrigin;
   // config.headers['Via'] = randomOrigin;
   // config.headers['Referer'] = 'https://pesis.net/';
-  console.log(config)
   // config.headers['x-api-key'] = process.env.API_KEY;
   return config;
 }, error => {

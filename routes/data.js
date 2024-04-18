@@ -1,5 +1,5 @@
-const { getResultBoard, handleResultBoard, getScoresBoard, getRunsBoard } = require('../utils/data')
-const { pitcherComparison } = require('../utils/runs')
+const { getResultBoard, handleResultBoard, getScoresBoard, getRunsBoard, getKarkilyonnitBoard } = require('../utils/data')
+const { pitcherComparison, topRunners } = require('../utils/runs')
 const express = require('express')
       router = express.Router()
 
@@ -33,6 +33,22 @@ router.get('/pitchers', async (req, res) => {
   res.json(filtered_by_amount_data)
 })
 
+router.get('/top-runners', async (req, res) => {
+  const { league_id, season } = req.query
+
+  if(!league_id || !season ) {
+    return res.status(400).send('bad request')
+  }
+
+  const data = await topRunners({ league_id, season, base: 1 })
+  const data2 = await topRunners({ league_id, season, base: 2 })
+  const data3 = await topRunners({ league_id, season, base: 3 })
+
+  const full_data = data.concat(data2).concat(data3)
+  
+  res.json(full_data)
+})
+
 router.get('/scores', async (req, res) => {
   const { seasonId, seasonSeriesId, seasonSeriesPhaseId } = req.query
 
@@ -53,6 +69,18 @@ router.get('/runs', async (req, res) => {
   }
   
   const data = await getRunsBoard({ seasonId: parseInt(seasonId), seasonSeriesId: parseInt(seasonSeriesId), seasonSeriesPhaseId: parseInt(seasonSeriesPhaseId) })
+  
+  res.json( data )
+})
+
+router.get('/karkilyonnit', async (req, res) => {
+  const { seasonId, seasonSeriesId, seasonSeriesPhaseId } = req.query
+
+  if(!seasonId || !seasonSeriesId || !seasonSeriesPhaseId) {
+    return res.status(400).send('bad request')
+  }
+  
+  const data = await getKarkilyonnitBoard({ seasonId: parseInt(seasonId), seasonSeriesId: parseInt(seasonSeriesId), seasonSeriesPhaseId: parseInt(seasonSeriesPhaseId) })
   
   res.json( data )
 })
