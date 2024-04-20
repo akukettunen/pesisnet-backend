@@ -84,4 +84,27 @@ router.get('/:player_id', async (req, res) => {
   res.json({ player, events_grouped_by_tilanne, averages, average_plays })
 })
 
+router.get('/:player_id/events', async (req, res) => {
+  const { player_id } = req.params
+  let { season } = req.query
+
+  if(!season || season === 'undefined') {
+    const date = new Date()
+    season = date.getFullYear()
+  }
+
+  if(!player_id) throw new Error('no player_id')
+
+  let { maps: { player } } = await playersHelper.getPlayerDataFromPesistulokset(player_id)
+  
+  if(!player) throw new Error('player not found!')
+
+  player = player[0]?.value
+  const { name } = player
+
+  const events = await playersHelper.getPlayerEvents(name, season)
+
+  res.json(events)
+})
+
 module.exports = router;
