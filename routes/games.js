@@ -79,10 +79,10 @@ router.get('/:id/basic-data', async (req, res) => {
 })
 
 router.get('/:id/game-data', async (req, res) => {
-  const date = req.query.date;
-  const gameData = await gamesHelper.gameData( date, req.params.id )
+  const {date, seasonSeries} = req.query;
+  const gameData = await gamesHelper.gameData( date, req.params.id, seasonSeries )
 
-  res.json({ gameData })
+  res.json(gameData)
 })
 
 router.get('/:id', async (req, res) => {

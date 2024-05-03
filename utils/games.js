@@ -1,6 +1,7 @@
 const axios = require('../utils/axios')
 
-const gamesByDate = date => {
+const gamesByDate = (date, seasonSeries) => {
+  if(seasonSeries) return axios(`https://www.pesistulokset.fi/api/v1/matches-per-date?date=${date}&seasonSeries=${seasonSeries}`)
   return axios(`https://www.pesistulokset.fi/api/v1/matches-per-date?date=${date}`)
 }
 
@@ -17,8 +18,8 @@ const gamePoll = (id, after) => {
 
 }
 
-const gameData = async (date, id) => {
-  const { data: { data, maps } } = await gamesByDate(date)
+const gameData = async (date, id, seasonSeries) => {
+  const { data: { data, maps } } = await gamesByDate(date, seasonSeries)
   if(!data) throw new Error('game not found')
   let game = data.find(g => g.id == id)
 
