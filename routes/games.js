@@ -72,6 +72,19 @@ router.get('/dates', async (req, res) => {
   res.json(dates)
 })
 
+router.get('/:id/basic-data', async (req, res) => {
+  const { data: game } = await gamesHelper.gameBasicData( req.params.id )
+
+  res.json({ game })
+})
+
+router.get('/:id/game-data', async (req, res) => {
+  const date = req.query.date;
+  const gameData = await gamesHelper.gameData( date, req.params.id )
+
+  res.json({ gameData })
+})
+
 router.get('/:id', async (req, res) => {
   const { data: game } = await gamesHelper.gameBasicData( req.params.id )
   if(!game) throw new Error('game not found!')

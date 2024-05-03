@@ -187,23 +187,6 @@ const gameEvents = id => {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 const getTeamById = ({ team_id, maps }) => {
   return maps?.team?.find(team => team.id === team_id)?.value
 }
