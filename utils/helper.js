@@ -3,7 +3,7 @@ const cheerio = require('cheerio')
 
 const getBaseData = () => {
   return new Promise((resolve, reject) => {
-    axios('https://pesistulokset.fi/kaikki')
+    axios('https://v1.pesistulokset.fi/kaikki')
       .then(e => {
         resolve(e)
       })
