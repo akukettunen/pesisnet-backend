@@ -18,12 +18,14 @@ const runs = require('./routes/runs')
 const players = require('./routes/players')
 const maps = require('./routes/maps')
 const data = require('./routes/data')
+const outfield = require('./routes/outfield')
 
 app.use('/api/v1/games', games)
 app.use('/api/v1/runs', runs)
 app.use('/api/v1/players', players)
 app.use('/api/v1/maps', maps)
 app.use('/api/v1/data', data)
+app.use('/api/v1/outfield', outfield)
 
 app.use(errorMiddleware)
 
